@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<img lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GUI </title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<style>
+
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 15px;
+}
+
+.column1 {
+  float: left;
+  width: 100%;
+  padding: 15px;
+}
+
+
+
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+
+
+body {
+  font-family: Arial;
+}
+
+
+input:focus, textarea:focus, select:focus{
+        outline: none;
+    }
+
+
+
+
+.lbl {
+    text-color:red;
+    font-size:30px;
+  }
+
+
+body, html {
+  height: 110%;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("bg.jpg");
+
+  /* Full height */
+  height: 100%;
+  width :100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+
+
+.bg1 {
+  /* The image used */
+  background-image: url('/static/img/bg.jpg')
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+
+
+
+</style>
+
+
+</head>
+
+
+<script>
+
+
+      $(function() {
+
+      $('#p').hide();
+      $('#ta').hide();
+    $('#upload-file-btn').click(function() {
+            $('#ta').hide();
+
+        var form_data = new FormData($('#upload-file')[0]);
+        $.ajax({
+            type: 'POST',
+            url: "/analyse/",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log(data);
+                $('ta').val('');
+
+                $("#btn").click(function()
+                {
+
+                    $('p').show();
+                    var x=data.a;
+                    var y=data.b;
+                    var z=data.c;
+                    var zz=data.d;
+                    var xx=data.x;
+
+                    var i='data:image/png;base64,'+(x);
+                    var ii='data:image/png;base64,'+(y);
+                    var iii='data:image/png;base64,'+(z);
+                    var iiii='data:image/png;base64,'+(zz);
+
+                    $("#img1").attr("src",i);
+                    $("#img2").attr("src",ii);
+                    $("#img3").attr("src",iii);
+                    $("#img4").attr("src",iiii);
+
+                    $("#ta").append(xx);
+
+
+                    $('#p').click(function(){
+   $('#ta').show();
+
+});
+
+
+
+                      });
+            },
+        });
+    });
+});
+
+
+
+
+
+function encodeImgtoBase64(element) {
+
+      var img = element.files[0];
+
+      var reader = new FileReader();
+
+      reader.onloadend = function() {
+
+        $("#displayImg").attr("src", reader.result);
+
+      }
+        reader.readAsDataURL(img);
+
+    }
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+<body style="background-image: url('static/img/bg.jpg')" >
+
+<div class="bg">
+
+    <div align="center" >
+
+        <label class="lbl">
+        <b><ul>IMAGE TRANSLATOR</ul></b></label>
+
+    </div>
+
+    <br><br>
+
+      <form id="upload-file" method="post" enctype="multipart/form-data">
+            <fieldset>
+            <label for="file"   align="center"  >Select an image file</label>
+            <input name="file"   type="file"
+                name="img" id="img" onchange="encodeImgtoBase64(this)"
+            >
+            </fieldset>
+
+
+            <fieldset>
+            <button id="upload-file-btn" align="center" type="button">Upload</button>
+            </fieldset>
+
+           <br>
+           <br>
+
+
+
+         <br><br>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           <div align="center" >
+                <BUTTON  id="btn">Get Image Forms</BUTTON>
+
+           </div>
+  <br>
+           <br>
+            <div >
+            <div class="row" style="background-image:imgbg.jpg">
+
+                <div class ="column"  > <img src=""  id="img4" ></div>
+                <div class="column" > <img src=""   id="img1"> </div>
+                <div class ="column" > <img src=""  id="img2" ></div>
+                <div class="column" > <img src=""   id="img3"> </div>
+
+
+            </div></div>
+
+
+
+</div>
+
+ <div align="center">
+
+               <p  id="p"> <b>Base 64 of input image</b></p>
+
+           </div>
+    <div>
+          <div class="row" >
+            <div class="column1">
+
+                <div align="center">
+                <textarea id="ta"  name="w3review" rows="30" cols="205">
+                </textarea>
+                </div>
+            </div>
+          </div>
+        </div>
+
+
+
+</body>
+
+
+</html>
