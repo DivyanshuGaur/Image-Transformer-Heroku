@@ -15,7 +15,6 @@ def homepage():
 
 
 
-
 @app.route('/gui')
 def gui():
     return render_template('gui.html')
